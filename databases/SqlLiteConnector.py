@@ -17,6 +17,7 @@ app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 @app.route('/help')
 def help_test():
+    init_db()
     return 'called the help function'
 
 
