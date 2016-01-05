@@ -1,12 +1,11 @@
 import os
 import sqlite3
-from flask import Flask, g
+from flask import g
+from app import app
 
-app = Flask(__name__)
-app.config.from_object(__name__)
 
 app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'flaskr.db'),
+    DATABASE=os.path.join(app.root_path, 'databases/flaskr.db'),
     DEBUG=True,
     SECRET_KEY='development key',
     USERNAME='admin',
@@ -31,6 +30,7 @@ def init_db():
 
 def connect_db():
     """Connects to the specific database."""
+    print(app.config['DATABASE'])
     rv = sqlite3.connect(app.config['DATABASE'])
     rv.row_factory = sqlite3.Row
     return rv

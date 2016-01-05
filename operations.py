@@ -1,4 +1,5 @@
-from databases.SqlLiteConnector import app, get_db
+from databases.SqlLiteConnector import get_db
+from app import app
 from flask import render_template, request, session, flash, redirect, url_for, \
     abort, get_flashed_messages
 from jinja2 import Environment, PackageLoader
