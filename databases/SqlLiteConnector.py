@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from flask import g
-from app import app
+from application import app
 
 
 app.config.update(dict(

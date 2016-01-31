@@ -1,47 +1,61 @@
 from cassandra.cluster import Cluster
 from Utils import config_section_map
+from DataBaseMetaClass import DataBaseMetaClass
 
 
-cassandra_ips = config_section_map("cassandra")['ip']
-port = config_section_map("cassandra")['port']
-cluster = Cluster(cassandra_ips.split(','), port=port)
-session = cluster.connect()
-__user_authentication_statement = session.prepare("SELECT value FROM authentication_table WHERE key=?")
+class CassandraConnector(DataBaseMetaClass):
+    def __init__(self):
+        cassandra_ips = config_section_map("cassandra")['ip']
+        port = config_section_map("cassandra")['port']
+        cluster = Cluster(cassandra_ips.split(','), port=port)
+        self.session = cluster.connect()
+        self.session.set_keyspace("shareit")
+        self.__user_authentication_statement = self.session.prepare("SELECT value FROM authentication WHERE key=?")
 
+    def connect_to_db(self):
+        pass
 
-def get_session():
-    return session
+    def add_user(self):
+        pass
 
+    def update_user(self):
+        pass
 
-def get_all_users():
-    rows = session.execute('SELECT name, age, contact from users')
-    return rows
+    def fetch_user_detail(self):
+        pass
 
+    def validate_login(self, user_id, password):
+        provided_hashed_password = self.__get_hashed_password(password)
+        actual_hashed_password = self.session.execute(self.__user_authentication_statement, [user_id])[0]
+        if provided_hashed_password == actual_hashed_password:
+            self.direct_to_user_home_page(user_id)
+        else:
+            return
 
-def authenticate(user_id, password):
-    provided_hashed_password = __get_hashed_password(password)
-    actual_hashed_password = session.execute(__user_authentication_statement, [user_id])[0]
-    if provided_hashed_password == actual_hashed_password:
-        direct_to_user_home_page(user_id)
-    else:
-        return
+    def get_session(self):
+        return self.session
 
+    def get_all_users(self):
+        try:
+            rows = self.session.execute('SELECT name, age, contact from users')
+        except:
+            session.execute('')
+        return rows
 
-def __get_hashed_password(password):
-    return hash(password)
+    @staticmethod
+    def __get_hashed_password(password):
+        return hash(password)
 
+    @staticmethod
+    def direct_to_user_home_page(user_id):
+        return 'write_function_direct_user_to_home_page'
 
-def direct_to_user_home_page(user_id):
-    return 'write_function_direct_user_to_home_page'
-
-
-def add_new_user(name, mobile, user_id):
-    session.execute(
-        """
-        INSERT INTO users (name, mobile, user_id)
-        VALUES (%s, %s, %s)
-        """,
-        (name, mobile, user_id)
-    )
-
+    def add_new_user(self, name, mobile, user_id):
+        self.session.execute(
+            """
+            INSERT INTO users (name, mobile, user_id)
+            VALUES (%s, %s, %s)
+            """,
+            (name, mobile, user_id)
+        )
 

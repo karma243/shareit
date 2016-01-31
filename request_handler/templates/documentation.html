@@ -1,0 +1,27 @@
+# extends "base.html"
+# block title
+    Index
+# endblock
+# block head
+    <title>This is title</title>
+    {{super()}}
+# endblock
+
+# block content
+    <img width="168" height="150" src="{{url_for('static', filename='pp.jpeg')}}">
+  <h2>The niggers -- bada and karma</h2>
+# for item in karma
+  {{item}}
+# endfor
+# for item in karma
+<li>
+    # block loop_item scoped
+     {{item}}
+    # endblock
+</li>
+# endfor
+# endblock
+
+# block footer
+    <h5>By Ashutosh Vishwakarma</h5>
+# endblock
