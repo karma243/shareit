@@ -7,7 +7,6 @@ create table entries (
 );
 
 create table authentication (
-    id integer primary key autoincrement,
-    username text not null,
+    username text primary key not null,
     password text not null
 );

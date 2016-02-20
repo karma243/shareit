@@ -1,0 +1,21 @@
+# extends "layout.html"
+# block body
+    <h1> Test for a particular user here</h1>
+    <form action="{{ url_for('check_valid_user') }}" method=post class=add-entry>
+      <dl>
+        <dt>Username To Test:
+        <dd><input type=text size=30 name=username>
+        <dt>Corresponding Password:
+        <dd><input type=text size=30 name=password>
+        <dd><input type=submit value=FindOut>
+      </dl>
+    </form>
+  <ul class=entries>
+    <h2>{{ (application.name + ' All Users') | title | upper | center}}</h2>
+# for entry in entries
+    <li><h2>{{ entry.username }}</h2>{{ entry.password|safe }}
+# else
+    <li><em>Unbelievable.  Not a single user is on your site</em>
+# endfor
+  </ul>
+# endblock

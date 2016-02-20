@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Add User</h2>
-# if session.master_user
+  <h2>Login as super user.</h2>
+  <h3> Great power comes with great responsibilities</h3>
   {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
-  <form action="{{ url_for('insert_into_authentication_table') }}" method=post>
+  <form action="{{ url_for('login_master') }}" method=post>
     <dl>
       <dt>Username:
       <dd><input type=text name=username>
@@ -12,7 +12,4 @@
       <dd><input type=submit value=Login>
     </dl>
   </form>
-#else
-    <h2> Not a master user</h2>
-#endif
 {% endblock %}
