@@ -1,6 +1,15 @@
-# extends base.html
+# extends "base.html"
 
 <html lang="en">
+    <form action="{{ url_for('insert_into_authentication_table') }}" method=post class=add-entry>
+        <dl>
+          <dt>Username:
+          <dd><input type=text name=username>
+          <dt>Password:
+          <dd><input type=password name=password>
+          <dd><input type=submit value=Insert>
+        </dl>
+    </form>
 <head>
     <meta charset="UTF-8">
     <title>Add User</title>

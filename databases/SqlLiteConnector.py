@@ -14,7 +14,6 @@ app.config.update(dict(
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 
-@app.route('/help')
 def help_test():
     init_db()
     return 'called the help function'
@@ -23,7 +22,7 @@ def help_test():
 def init_db():
     with app.app_context():
         db = get_db()
-        with app.open_resource('schema.sql', mode='r') as f:
+        with app.open_resource('databases/schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
 
@@ -48,6 +47,5 @@ def get_db():
 @app.teardown_appcontext
 def close_db(error):
     """Closes the database at the end of the request"""
-    print 'lambda'
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
